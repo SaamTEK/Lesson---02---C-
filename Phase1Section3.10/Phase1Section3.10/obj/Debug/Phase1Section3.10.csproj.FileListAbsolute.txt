@@ -1,0 +1,8 @@
+D:\SimpliLearn\C#\Phase1Section3.10\Phase1Section3.10\obj\Debug\Phase1Section3.10.csproj.AssemblyReference.cache
+D:\SimpliLearn\C#\Phase1Section3.10\Phase1Section3.10\obj\Debug\Phase1Section3.10.csproj.SuggestedBindingRedirects.cache
+D:\SimpliLearn\C#\Phase1Section3.10\Phase1Section3.10\obj\Debug\Phase1Section3.10.csproj.CoreCompileInputs.cache
+D:\SimpliLearn\C#\Phase1Section3.10\Phase1Section3.10\bin\Debug\Phase1Section3.10.exe.config
+D:\SimpliLearn\C#\Phase1Section3.10\Phase1Section3.10\bin\Debug\Phase1Section3.10.exe
+D:\SimpliLearn\C#\Phase1Section3.10\Phase1Section3.10\bin\Debug\Phase1Section3.10.pdb
+D:\SimpliLearn\C#\Phase1Section3.10\Phase1Section3.10\obj\Debug\Phase1Section3.10.exe
+D:\SimpliLearn\C#\Phase1Section3.10\Phase1Section3.10\obj\Debug\Phase1Section3.10.pdb
