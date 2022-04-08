@@ -65,7 +65,7 @@ namespace TFMS
                     int counter = 0;
                     string line;
 
-                    // Read the file, add index to each line and assign it to a returning List item.
+                    // Read the file, add index to each line and assign it to a returning List item
                     StreamReader file = new StreamReader(FilePath);
                     List<string> data = new List<string>();
                     while ((line = file.ReadLine()) != null)
@@ -103,7 +103,7 @@ namespace TFMS
                     {
                         if (line.Contains(fiter))
                         {
-                            Console.WriteLine(counter.ToString() + ": " + line);
+                            // Console.WriteLine(counter.ToString() + ": " + line);
                             data.Add(counter.ToString() + ": " + line);
                             counter++;
                         } else
@@ -126,7 +126,25 @@ namespace TFMS
             }     
         }
 
-        // Method to update data at specific index no
+        // Method to retrieve data at a specific index 
+        public static string GetDataAtIndex(int index)
+        {
+            if (File.Exists(FilePath))
+            {
+                try
+                {
+                    string[] fileData = File.ReadAllLines(FilePath);
+                    return fileData[index];
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"Exception Occured: {ex.Message}");
+                    return null;
+                }
+            } else { return null; }
+        }
+
+        // Method to update data at a specific index 
         public static void UpdateData(string data, int index)
         {
             if (File.Exists(FilePath))
@@ -134,7 +152,7 @@ namespace TFMS
                 try
                 {
                     string[] fileData = File.ReadAllLines(FilePath);
-                    fileData[index - 1] = data;
+                    fileData[index] = data;
                     File.WriteAllLines(FilePath, fileData);
                 }
                 catch (Exception ex)
@@ -144,6 +162,7 @@ namespace TFMS
             }
         }
 
+        // Method to delete data at a specific index
         public static void DeleteData(int index)
         {
             if (File.Exists(FilePath))
