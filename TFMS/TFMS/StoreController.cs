@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Collections.Generic;
 using System.Text;
 
 namespace TFMS
@@ -31,7 +32,7 @@ namespace TFMS
                 }
                 catch (Exception ex)
                 {
-                    Console.WriteLine(ex.Message);
+                    Console.WriteLine($"Exception Occured: {ex.Message}");
                 }
             }
         }
@@ -49,32 +50,116 @@ namespace TFMS
                 }
                 catch (Exception ex)
                 {
-                    Console.WriteLine(ex.Message);
+                    Console.WriteLine($"Exception Occured: {ex.Message}");
                 }
             }
         }
 
         // Method to retrieve all records from the file
-        public static string ReadAllData()
+        public static List<string> ReadAllData()
         {
-            // Open the file to read from.
-            string data = File.ReadAllText(FilePath);
-            Console.WriteLine(data);
-            return data;
+            if (File.Exists(FilePath))
+            {
+                try
+                {
+                    int counter = 0;
+                    string line;
+
+                    // Read the file, add index to each line and assign it to a returning List item.
+                    StreamReader file = new StreamReader(FilePath);
+                    List<string> data = new List<string>();
+                    while ((line = file.ReadLine()) != null)
+                    {
+                        data.Add(counter.ToString() + ": " + line);
+                        counter++;
+                    }
+
+                    file.Close();
+                    return data;
+                }
+
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"Exception Occured: {ex.Message}");
+                    return null;
+                }
+
+            } else
+            {
+                return null;
+            }
         }
 
-        // Method to retrieve only certain data based on the paramaters
-        public static void ReadData(string id, string data)
+        // Method to retrieve filtered data based on the paramaters
+        public static List<string> ReadData(string fiter)
         {
-            if (File.Exists(FilePath)) {
-                foreach (string line in File.ReadLines(FilePath))
+            if (File.Exists(FilePath))
+            {
+                List<string> data = new List<string>();
+                try
                 {
-                    if (line.Contains(id) | line.Contains(data))
+                    int counter = 0;
+                    foreach (string line in File.ReadLines(FilePath))
                     {
-                        Console.WriteLine(line);
+                        if (line.Contains(fiter))
+                        {
+                            Console.WriteLine(counter.ToString() + ": " + line);
+                            data.Add(counter.ToString() + ": " + line);
+                            counter++;
+                        } else
+                        {
+                            counter++;
+                        }
+                        
                     }
                 }
-            }                
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"Exception Occured: {ex.Message}");
+                    return null;
+                }
+
+                return data;
+            } else
+            {
+                return null;
+            }     
+        }
+
+        // Method to update data at specific index no
+        public static void UpdateData(string data, int index)
+        {
+            if (File.Exists(FilePath))
+            {
+                try
+                {
+                    string[] fileData = File.ReadAllLines(FilePath);
+                    fileData[index - 1] = data;
+                    File.WriteAllLines(FilePath, fileData);
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"Exception Occured: {ex.Message}");
+                }
+            }
+        }
+
+        public static void DeleteData(int index)
+        {
+            if (File.Exists(FilePath))
+            {
+                try
+                {
+                    string[] fileData = File.ReadAllLines(FilePath);
+                    List<string> fileDataList = new List<string>(fileData);
+                    fileDataList.RemoveAt(index);
+                    File.WriteAllLines(FilePath, fileDataList);
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"Exception Occured: {ex.Message}");
+                }
+            }
         }
 
     }
