@@ -100,12 +100,18 @@ namespace TFMS
                     int counter = 0;
                     foreach (string line in File.ReadLines(FilePath))
                     {
-                        if (line.ToLower().Contains(fiter.ToLower()))
+                        if (line.Split(',')[2].Contains("/"))
                         {
-                            // Console.WriteLine(counter.ToString() + ": " + line);
-                            data.Add($"{counter},{line}");
+                            string[] d = line.Split(',');
+                            string trimmedLine = $"{d[0]},{d[1]},{d[2].Split('\'')[1].Trim('\'')}{d[2].Split('\'')[3].Trim('\'')}";
+                            if (trimmedLine.ToLower().Contains(fiter.ToLower()))
+                            {
+                                data.Add($"{counter},{d[0]},{d[1]},{d[2].Split('/')[0]}/{d[2].Split('/')[1]}");
+                                counter++;
+                            }
                             counter++;
-                        } else
+                        }
+                        else
                         {
                             counter++;
                         }

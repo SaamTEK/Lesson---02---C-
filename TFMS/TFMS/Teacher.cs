@@ -9,8 +9,8 @@ namespace TFMS
         {
             string name = GetInput("\nEnter Teacher name");
             string id = GetInput("Enter ID");
-            string cls = GetInput("Enter class (1-10)");
-            string sec = GetInput("Enter Section (A/B/C)").ToUpper();
+            string cls = GetInput("Enter class");
+            string sec = GetInput("Enter Section").ToUpper();
 
             string data = $"'{id}','{name}','{cls}'/'{sec}'";
 
