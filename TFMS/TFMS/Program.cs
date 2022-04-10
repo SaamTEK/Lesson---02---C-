@@ -17,11 +17,11 @@ namespace TFMS
         {
             Console.Clear();
 
-            Console.WriteLine("------------------------------------------");
+            Console.WriteLine("----------------------------------------");
             Console.WriteLine("Rainbow School Teacher Management System");
-            Console.WriteLine("------------------------------------------");
-            StoreController.GetLastWriteTime();
-            Console.WriteLine("------------------------------------------");
+            Console.WriteLine("----------------------------------------");
+            StoreController.GetStoreStats();
+            Console.WriteLine("----------------------------------------");
             Console.WriteLine("Choose an option:");
             Console.WriteLine("1) View All Teachers");
             Console.WriteLine("2) Add a new Teacher");

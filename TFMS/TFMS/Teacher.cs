@@ -12,7 +12,7 @@ namespace TFMS
             string cls = GetInput("Enter class (1-10)");
             string sec = GetInput("Enter Section (A/B/C)").ToUpper();
 
-            string data = $"{id},{name},{cls}/{sec}";
+            string data = $"'{id}','{name}','{cls}'/'{sec}'";
 
             StoreController.SaveData(data);
             GetFormattedResponse("Teacher added successfully.");
@@ -55,16 +55,25 @@ namespace TFMS
             string newClass = GetInput("Enter new Class", splitCS[0]);
             string newSec = GetInput("Enter new Section", splitCS[1]).ToUpper();
 
-            string newData = $"{newID},{newName},{newClass}/{newSec}";
+            string newData = $"'{newID}','{newName}','{newClass}'/'{newSec}'";
             StoreController.UpdateData(newData, index);
-            GetFormattedResponse($"Updated Teacher: {newData}" );
+            GetFormattedResponse($"Updated Teacher: {newData}");
         }
 
         public static void DeleteTeacher()
         {
             Console.WriteLine();
 
-            int index = Convert.ToInt32(GetInput("Enter index of Teacher to delete"));
+            int index;
+
+            do
+            {
+                index = Convert.ToInt32(GetInput("Enter index of Teacher to delete"));
+                if(index > StoreController.GetNumberOfRows())
+                {
+                    Console.WriteLine($"Please enter index within range (0 - {StoreController.GetNumberOfRows()})");
+                }
+            } while (index >= StoreController.GetNumberOfRows());
 
             StoreController.DeleteData(index);
             GetFormattedResponse("Teacher deleted successfully.");
@@ -81,7 +90,11 @@ namespace TFMS
                 {
                     Console.WriteLine("Empty input, please try again");
                 }
-            } while (string.IsNullOrEmpty(Result));
+                else if (Result.Contains(","))
+                {
+                    Console.WriteLine("Contains an invalid character. Try again.");
+                }
+            } while (string.IsNullOrEmpty(Result) | Result.Contains(","));
             return Result;
         }
 
@@ -95,20 +108,24 @@ namespace TFMS
                 Console.WriteLine("Empty input, retaining previous value.");
                 return PrevValue;
             }
+            else if (Result.Contains(","))
+            {
+                Console.WriteLine("Contains an invalid character. Try again.");
+            }
             return Result;
         }
 
         private static void GetFormattedTableOutput(List<string> data)
         {
             Console.WriteLine();
-            Console.WriteLine("------------------------------------------");
-            Console.WriteLine("Index| ID   | Name                 |   C&S");
-            Console.WriteLine("------------------------------------------");
+            Console.WriteLine("-------------------------------------------------------------");
+            Console.WriteLine("Index| ID        | Name                     |       Class/Sec");
+            Console.WriteLine("-------------------------------------------------------------");
             foreach (string item in data)
             {
                 GetFormattedRow(item);
             }
-            Console.WriteLine("------------------------------------------");
+            Console.WriteLine("-------------------------------------------------------------");
             Console.WriteLine();
             Console.Write("Press any key to return to main menu... ");
             Console.ReadKey();
@@ -117,19 +134,19 @@ namespace TFMS
         private static void GetFormattedRow(string data)
         {
             string[] splitData = data.Split(',');
-            Console.WriteLine(String.Format("{0,-4} | {1,-4} | {2,-20} | {3,5}", splitData[0], splitData[1], splitData[2], splitData[3]));
+            Console.WriteLine(String.Format("{0,4} | {1,-9} | {2,-24} | {3,15}", splitData[0], splitData[1], splitData[2], splitData[3]));
         }
 
         private static void GetFormattedRow(string data, bool showBorder)
         {
             if (showBorder)
             {
-                Console.WriteLine("------------------------------------------");
-                Console.WriteLine("Index| ID   | Name                 |   C&S");
-                Console.WriteLine("------------------------------------------");
-                string[] splitData = data.Split(',');
-                Console.WriteLine(String.Format("{0,-4} | {1,-4} | {2,-20} | {3,5}", splitData[0], splitData[1], splitData[2], splitData[3]));
-                Console.WriteLine("------------------------------------------");
+                Console.WriteLine("-------------------------------------------------------------");
+                Console.WriteLine("Index| ID        | Name                     |       Class/Sec");
+                Console.WriteLine("-------------------------------------------------------------");
+                string[] splitData = GetFormatedItem(data.Split(','));
+                Console.WriteLine(String.Format("{0,4} | {1,-9} | {2,-24} | {3,15}", splitData[0], splitData[1], splitData[2], splitData[3]));
+                Console.WriteLine("-------------------------------------------------------------");
             }
         }
 
@@ -139,5 +156,18 @@ namespace TFMS
             Console.Write(response);
             GetAllTeachers();
         }
+
+        private static string[] GetFormatedItem(string[] item)
+        {
+            for (int i = 0; i < item.Length; i++)
+            {
+                if (item[i].Contains("'"))
+                {
+                    item[i] = item[i].Split('\'')[2];
+                }
+            }
+            return item;
+        }
+        
     }
 }

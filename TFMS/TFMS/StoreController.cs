@@ -180,11 +180,19 @@ namespace TFMS
             }
         }
 
-        public static void GetLastWriteTime()
+        public static void GetStoreStats()
         {
             DateTime dt = File.GetLastWriteTime(FilePath);
-            Console.WriteLine("Last write time: {0}.", dt);
+
+            int rowCount = File.ReadAllLines(FilePath).Length;
+
+            Console.WriteLine("Last updated at: {0}.", dt);
+            Console.WriteLine("No. of rows(s): {0}", rowCount);
         }
 
+        public static int GetNumberOfRows() 
+        {
+            return File.ReadAllLines(FilePath).Length;
+        }
     }
 }
