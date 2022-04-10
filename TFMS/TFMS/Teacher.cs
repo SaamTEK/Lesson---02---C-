@@ -40,7 +40,16 @@ namespace TFMS
         {
             Console.WriteLine();
 
-            int index = Convert.ToInt32(GetInput("Enter index of Teacher to update"));
+            int index;
+
+            do
+            {
+                index = Convert.ToInt32(GetInput("Enter index of Teacher to update"));
+                if (index >= StoreController.GetNumberOfRows())
+                {
+                    Console.WriteLine($"Please enter index within range (0 - {(StoreController.GetNumberOfRows()-1)})");
+                }
+            } while (index >= StoreController.GetNumberOfRows());
 
             string indexData = StoreController.GetDataAtIndex(index);
 
@@ -69,11 +78,13 @@ namespace TFMS
             do
             {
                 index = Convert.ToInt32(GetInput("Enter index of Teacher to delete"));
-                if(index > StoreController.GetNumberOfRows())
+                if(index >= StoreController.GetNumberOfRows())
                 {
-                    Console.WriteLine($"Please enter index within range (0 - {StoreController.GetNumberOfRows()})");
+                    Console.WriteLine($"Please enter index within range (0 - {(StoreController.GetNumberOfRows() - 1)})");
                 }
             } while (index >= StoreController.GetNumberOfRows());
+
+            GetFormattedRow(StoreController.GetDataAtIndex(index), true);
 
             StoreController.DeleteData(index);
             GetFormattedResponse("Teacher deleted successfully.");
@@ -106,7 +117,7 @@ namespace TFMS
             if (string.IsNullOrEmpty(Result))
             {
                 Console.WriteLine("Empty input, retaining previous value.");
-                return PrevValue;
+                return PrevValue.Trim('\'');
             }
             else if (Result.Contains(","))
             {
@@ -133,7 +144,8 @@ namespace TFMS
 
         private static void GetFormattedRow(string data)
         {
-            string[] splitData = data.Split(',');
+            // string[] splitData = data.Split(',');
+            string[] splitData = GetFormatedItem(data.Split(','));
             Console.WriteLine(String.Format("{0,4} | {1,-9} | {2,-24} | {3,15}", splitData[0], splitData[1], splitData[2], splitData[3]));
         }
 
@@ -159,14 +171,19 @@ namespace TFMS
 
         private static string[] GetFormatedItem(string[] item)
         {
+            string[] itemObj = item;
             for (int i = 0; i < item.Length; i++)
             {
-                if (item[i].Contains("'"))
+                if (item[i].Contains("\'"))
                 {
-                    item[i] = item[i].Split('\'')[2];
+                    if(item[i].Contains("/"))
+                    {
+                        itemObj[i] = $"{item[i].Split('/')[0].Trim('\'')}/{item[i].Split('/')[1].Trim('\'')}";
+                    }
+                    itemObj[i] = item[i].Trim('\'');
                 }
             }
-            return item;
+            return itemObj;
         }
         
     }
