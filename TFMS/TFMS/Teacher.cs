@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace TFMS
 {
@@ -43,7 +40,7 @@ namespace TFMS
         {
             Console.WriteLine();
 
-            int index = Convert.ToInt32(GetIndexInput("Enter index of Teacher to update"));
+            int index = Convert.ToInt32(GetInput("Enter index of Teacher to update"));
 
             string indexData = StoreController.GetDataAtIndex(index);
 
@@ -67,7 +64,7 @@ namespace TFMS
         {
             Console.WriteLine();
 
-            int index = Convert.ToInt32(GetIndexInput("Enter index of Teacher to delete"));
+            int index = Convert.ToInt32(GetInput("Enter index of Teacher to delete"));
 
             StoreController.DeleteData(index);
             GetFormattedResponse("Teacher deleted successfully.");
@@ -98,21 +95,6 @@ namespace TFMS
                 Console.WriteLine("Empty input, retaining previous value.");
                 return PrevValue;
             }
-            return Result;
-        }
-
-        private static string GetIndexInput(string Prompt)
-        {
-            string Result;
-            do
-            {
-                Console.Write(Prompt + ": ");
-                Result = Console.ReadLine();
-                if (string.IsNullOrEmpty(Result))
-                {
-                    Console.WriteLine("Empty input, please try again");
-                }
-            } while (string.IsNullOrEmpty(Result));
             return Result;
         }
 

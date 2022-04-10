@@ -4,6 +4,5 @@
 122,Sanya,1/C
 169,Ezio Auditore,5/A
 195,Jacob,8/A
-123,Test,6/B
-199,Final,10/C
-221,Goma,4/B
+123,Tarik,6/B
+129,Goma,4/B
