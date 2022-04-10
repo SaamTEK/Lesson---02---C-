@@ -9,22 +9,53 @@ namespace TFMS
     {
         static void Main(string[] args)
         {
-            /*            StoreController.SaveData("1003 MSM 6th C");
-                        List<string> s = StoreController.ReadAllData();
-                        for(int i = 0; i < s.Count; i++)
-                        {
-                            Console.WriteLine(s[i]);
-                        }
-                        Console.WriteLine("Reading specific data");
-                        List<string> d = StoreController.ReadData("6th");*/
-            // if(d.Count != 0) Console.WriteLine(d[0]);
-            // StoreController.UpdateData("1009 DMS 10th C", 3);
+            bool showMenu = true;
+            while (showMenu)
+            {
+                showMenu = MainMenu();
+            }
+        }
 
-            // StoreController.DeleteData(4);
+        private static bool MainMenu()
+        {
+            Console.Clear();
 
-            Teacher.GetAllTeachers();
-            // Teacher.UpdateTeacher();
-            Teacher.DeleteTeacher();
+            Console.WriteLine("------------------------------------------");
+            Console.WriteLine("Rainbow School Teacher Management System");
+            Console.WriteLine("------------------------------------------");
+            StoreController.GetLastWriteTime();
+            Console.WriteLine("------------------------------------------");
+            Console.WriteLine("Choose an option:");
+            Console.WriteLine("1) View All Teachers");
+            Console.WriteLine("2) Add a new Teacher");
+            Console.WriteLine("3) Filter Teachers");
+            Console.WriteLine("4) Update Teacher");
+            Console.WriteLine("5) Delete Teacher");
+            Console.WriteLine("6) Exit");
+            Console.Write("\r\nSelect an option: ");
+
+            switch (Console.ReadLine())
+            {
+                case "1":
+                    Teacher.GetAllTeachers();
+                    return true;
+                case "2":
+                    Teacher.AddNewTeacher();
+                    return true;
+                case "3":
+                    Teacher.FilterTeachers();
+                    return true;
+                case "4":
+                    Teacher.UpdateTeacher();
+                    return true;
+                case "5":
+                    Teacher.DeleteTeacher();
+                    return true;
+                case "6":
+                    return false;
+                default:
+                    return true;
+            }
         }
     }
 }

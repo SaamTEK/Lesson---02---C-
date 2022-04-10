@@ -70,7 +70,7 @@ namespace TFMS
                     List<string> data = new List<string>();
                     while ((line = file.ReadLine()) != null)
                     {
-                        data.Add(counter.ToString() + ": " + line);
+                        data.Add($"{counter},{line}");
                         counter++;
                     }
 
@@ -101,10 +101,10 @@ namespace TFMS
                     int counter = 0;
                     foreach (string line in File.ReadLines(FilePath))
                     {
-                        if (line.Contains(fiter))
+                        if (line.ToLower().Contains(fiter.ToLower()))
                         {
                             // Console.WriteLine(counter.ToString() + ": " + line);
-                            data.Add(counter.ToString() + ": " + line);
+                            data.Add($"{counter},{line}");
                             counter++;
                         } else
                         {
@@ -134,7 +134,7 @@ namespace TFMS
                 try
                 {
                     string[] fileData = File.ReadAllLines(FilePath);
-                    return fileData[index];
+                    return $"{index},{fileData[index]}";
                 }
                 catch (Exception ex)
                 {
@@ -179,6 +179,12 @@ namespace TFMS
                     Console.WriteLine($"Exception Occured: {ex.Message}");
                 }
             }
+        }
+
+        public static void GetLastWriteTime()
+        {
+            DateTime dt = File.GetLastWriteTime(FilePath);
+            Console.WriteLine("Last write time: {0}.", dt);
         }
 
     }
